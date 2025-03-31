@@ -2,9 +2,9 @@ cmake_minimum_required(VERSION 4.0)
 
 project(cmake_library LANGUAGES CXX)
 
-add_library(${PROJECT_NAME} src/library.cpp)
+add_library(cmake_library src/library.cpp)
 
-set_target_properties(${PROJECT_NAME}
+set_target_properties(cmake_library
     PROPERTIES
         CMAKE_CXX_STANDARD 20
         CMAKE_CXX_STANDARD_REQUIRED ON
@@ -13,14 +13,14 @@ set_target_properties(${PROJECT_NAME}
 
 include(GNUInstallDirs)
 
-target_include_directories(${PROJECT_NAME}
+target_include_directories(cmake_library
     PUBLIC
         "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>"
         "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
 )
 
-install(TARGETS ${PROJECT_NAME}
-    EXPORT ${PROJECT_NAME}Targets
+install(TARGETS cmake_library
+    EXPORT cmake_libraryTargets
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
@@ -29,20 +29,20 @@ install(TARGETS ${PROJECT_NAME}
 
 install(FILES src/library.h DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
-install(EXPORT ${PROJECT_NAME}Targets
-    FILE ${PROJECT_NAME}Targets.cmake
+install(EXPORT cmake_libraryTargets
+    FILE cmake_libraryTargets.cmake
     NAMESPACE library::
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/cmake_library
 )
 
 include(CMakePackageConfigHelpers)
 
 configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/Config.cmake.in
-    "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
-    INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
+    "${CMAKE_CURRENT_BINARY_DIR}/cmake_libraryConfig.cmake"
+    INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/cmake_library
 )
 
 install(FILES
-    "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
+    "${CMAKE_CURRENT_BINARY_DIR}/cmake_libraryConfig.cmake"
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/cmake_library
 )
