@@ -10,3 +10,5 @@ set_target_properties(${PROJECT_NAME}
         CMAKE_CXX_STANDARD_REQUIRED ON
         CMAKE_CXX_EXTENSIONS OFF
 )
+
+include(GNUInstallDirs)
