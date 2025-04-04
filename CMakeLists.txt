@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 4.0)
 
 project(cmake_library LANGUAGES CXX)
 
+include(cmake/UpdateSubmodules.cmake)
+
 add_library(cmake_library src/library.cpp)
 
 set_target_properties(cmake_library
@@ -46,3 +48,14 @@ install(FILES
     "${CMAKE_CURRENT_BINARY_DIR}/cmake_libraryConfig.cmake"
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/cmake_library
 )
+
+include(CTest)
+message(STATUS "BUILD_TESTING: ${BUILD_TESTING}")
+if(BUILD_TESTING)
+    add_subdirectory(external)
+    add_executable(cmake_library_test test/cmake_library_test.cpp)
+    target_link_libraries(cmake_library_test PRIVATE GTest::gtest_main)
+    include(GoogleTest)
+    gtest_discover_tests(cmake_library_test)
+endif(BUILD_TESTING)
+
